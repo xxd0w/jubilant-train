@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thanos Sort</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  #arrayDisplay {
+    margin-top: 20px;
+    font-size: 24px;
+  }
+</style>
+</head>
+<body>
+<h1>Thanos Sort Algorithm</h1>
+<label for="arrayInput">Enter your array (comma-separated):</label>
+<input type="text" id="arrayInput" value="16, 25, 4, 42, 8, 15, 23, 42">
+<button onclick="startThanosSort()">Sort with Thanos</button>
+<div id="arrayDisplay"></div>
+
+<script>
+  function displayArray(arr) {
+    document.getElementById('arrayDisplay').innerText = 'Current Array: ' + arr.join(', ');
+  }
+
+  function isSorted(arr) {
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i - 1] > arr[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function thanosSort(array) {
+    displayArray(array);
+
+    function recursiveSort(arr) {
+      if (isSorted(arr)) {
+        displayArray(arr);
+        return;
+      }
+
+      let mid = Math.floor(arr.length / 2);
+      let left = arr.slice(0, mid);
+      let right = arr.slice(mid);
+
+      // Simulate "removing" half of the array that is less sorted
+      if (!isSorted(left) && isSorted(right)) {
+        arr = right;
+      } else if (isSorted(left) && !isSorted(right)) {
+        arr = left;
+      } else {
+        arr = left; // Or any other rule to choose which half to keep
+      }
+
+      setTimeout(() => {
+        displayArray(arr);
+        recursiveSort(arr);
+      }, 1000); // Delay for demonstration purposes
+    }
+
+    recursiveSort(array);
+  }
+
+  function startThanosSort() {
+    let arrayInput = document.getElementById('arrayInput').value;
+    let array = arrayInput.split(',').map(num => parseInt(num.trim()));
+    thanosSort(array);
+  }
+</script>
+</body>
+</html>
